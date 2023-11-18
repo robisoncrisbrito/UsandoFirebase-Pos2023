@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import br.edu.utfpr.usandofirebase_pos2023.databinding.ActivityMainBinding
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -17,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate( layoutInflater )
         setContentView( binding.root )
 
-
+        manageToken()
 
         binding.btIncluir.setOnClickListener {
             btIncluirOnClick()
@@ -38,6 +40,19 @@ class MainActivity : AppCompatActivity() {
         binding.btListar.setOnClickListener {
             btListarOnClick()
         }
+    }
+
+    private fun manageToken() {
+
+        println( "teste" )
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener( OnCompleteListener { task ->
+            Toast.makeText( this, "Token gerado/recuperado: ${task.result}", Toast.LENGTH_LONG ).show()
+            return@OnCompleteListener
+        })
+
+
+
     }
 
     private fun btIncluirOnClick() {
